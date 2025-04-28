@@ -1,4 +1,4 @@
-package com.jaimebarrera.demojpa.repository;
+package com.jaimebarrera.demojpa.infrastructure.repository;
 
 import java.util.List;
 

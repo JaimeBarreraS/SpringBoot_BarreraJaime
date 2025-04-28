@@ -1,14 +1,24 @@
 package com.jaimebarrera.demojpa.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "personas")
+//Bidireccional
+//Unidireccional
+//ManyToOne
+//OneToMany  
+//ManyToMany (Llaves compuestas)
+//OneToOne 
+//Embeddable ¿Que son y cuando usarlas?
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +29,9 @@ public class Person {
 
     @Column(name = "programming_language")
     private String language;
+
+    @OneToMany
+    private List<Rol> role;
 
     public Person(){
 
@@ -63,5 +76,11 @@ public class Person {
         this.language = language;
     }
 
-    
+    public List<Rol> getRol() {
+        return role;
+    }
+
+    public void setRol(List<Rol> rol) {
+        this.role = rol;
+    }
 }
