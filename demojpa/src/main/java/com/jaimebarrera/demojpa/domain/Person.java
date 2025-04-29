@@ -1,37 +1,39 @@
 package com.jaimebarrera.demojpa.domain;
 
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "personas")
-//Bidireccional
-//Unidireccional
-//ManyToOne
-//OneToMany  
-//ManyToMany (Llaves compuestas)
-//OneToOne 
-//Embeddable ¿Que son y cuando usarlas?
+@Getter
+@Setter
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "full_name", columnDefinition = "TEXT", length = 50, nullable = false)       
     private String name;
     private String lastName;
 
     @Column(name = "programming_language")
     private String language;
 
-    @OneToMany
-    private List<Rol> role;
+    @ManyToOne
+    @JoinColumn(name = "rol_id", nullable = false)
+    @JsonBackReference  // Marca el lado que no serializa
+    private Rol rol;
 
     public Person(){
 
@@ -44,43 +46,5 @@ public class Person {
         this.language = language;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public List<Rol> getRol() {
-        return role;
-    }
-
-    public void setRol(List<Rol> rol) {
-        this.role = rol;
-    }
+    
 }
