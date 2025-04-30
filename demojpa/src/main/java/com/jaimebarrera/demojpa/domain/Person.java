@@ -1,21 +1,37 @@
 package com.jaimebarrera.demojpa.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "personas")
+@EqualsAndHashCode(exclude = {"rol"})
+@ToString(exclude = {"rol"})
 @Getter
 @Setter
 public class Person {
@@ -30,10 +46,25 @@ public class Person {
     @Column(name = "programming_language")
     private String language;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // nivel de JPA 
     @JoinColumn(name = "rol_id", nullable = false)
+    @OnDelete(action =  OnDeleteAction.CASCADE) // Nivel de base de datos
     @JsonBackReference  // Marca el lado que no serializa
     private Rol rol;
+
+    @OneToOne(mappedBy = "person") //, cascade = CascadeType.ALL
+    @JsonManagedReference 
+    private Passport passport;
+
+    
+    @ManyToMany
+    @JoinTable(
+        name = "personas_project",
+        joinColumns = @JoinColumn(name = "persona_id", foreignKey = @ForeignKey(name = "fk_persona_id_project")),
+        inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    @JsonBackReference
+    private List<Project> projects = new ArrayList<>();
 
     public Person(){
 
@@ -45,6 +76,5 @@ public class Person {
         this.lastName = lastName;
         this.language = language;
     }
-
     
 }

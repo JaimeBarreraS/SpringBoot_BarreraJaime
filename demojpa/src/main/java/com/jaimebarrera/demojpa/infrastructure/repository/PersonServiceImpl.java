@@ -30,12 +30,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Rol> findAllRolesByFilter(String filter, String value) {
-        //if(filter.toLowerCase().equals("name") && !value.isEmpty()) {
-          //  return personRepository.findByRolNameContains(value);
-        //} else if(filter.toLowerCase().equals("id")  && !value.isEmpty()) {
-          //  return personRepository.findByRolIdEquals(Long.valueOf(value));
-        //} 
+    public List<Rol> findAllRolesByFilter(String filter, String value) { 
         return roleRepository.findAll();
     }
 }
