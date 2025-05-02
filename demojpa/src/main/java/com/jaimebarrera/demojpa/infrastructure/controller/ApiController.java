@@ -1,11 +1,12 @@
 package com.jaimebarrera.demojpa.infrastructure.controller;
 
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jaimebarrera.demojpa.application.service.PersonService;
@@ -13,6 +14,9 @@ import com.jaimebarrera.demojpa.application.service.ProjectService;
 import com.jaimebarrera.demojpa.domain.Person;
 import com.jaimebarrera.demojpa.domain.Project;
 import com.jaimebarrera.demojpa.domain.Rol;
+import com.jaimebarrera.demojpa.domain.RoleRequest;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,8 +60,9 @@ public class ApiController {
     }
 
     @PostMapping("/roles")
-    public Map<String,String> newRole(@RequestBody Rol rol) {
-        return Map.of("ID", rol.getId(), "NAME", rol.getName());
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Rol newRole(@Valid @RequestBody RoleRequest rol) {
+        return personService.createNewRol(rol.getName());
     }
    
     @GetMapping("/projects")
@@ -70,6 +75,5 @@ public class ApiController {
     
         return results;
     }
-
-
 }
+
