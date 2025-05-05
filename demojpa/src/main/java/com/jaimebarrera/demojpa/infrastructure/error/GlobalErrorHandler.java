@@ -1,15 +1,15 @@
 package com.jaimebarrera.demojpa.infrastructure.error;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.jaimebarrera.demojpa.infrastructure.error.model.FieldError;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {

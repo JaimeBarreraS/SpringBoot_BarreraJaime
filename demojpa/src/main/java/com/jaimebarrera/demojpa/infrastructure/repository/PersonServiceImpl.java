@@ -3,23 +3,21 @@ package com.jaimebarrera.demojpa.infrastructure.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.jaimebarrera.demojpa.application.service.PersonService;
 import com.jaimebarrera.demojpa.domain.Person;
-import com.jaimebarrera.demojpa.domain.Rol;
-import com.jaimebarrera.demojpa.infrastructure.error.RolDuplicateException;
+import com.jaimebarrera.demojpa.domain.dto.PersonRequest;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-    private final RoleRepository roleRepository;
 
-    public PersonServiceImpl(PersonRepository personRepository, RoleRepository roleRepository) {
-        this.personRepository = personRepository;
-        this.roleRepository = roleRepository;        
+    public PersonServiceImpl(PersonRepository personRepository) {
+        this.personRepository = personRepository;    
     }
 
     @Override
@@ -33,25 +31,26 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Rol> findAllRolesByFilter(String filter, String value) { 
-        return roleRepository.findAll();
-    }
-
-    @Override
-    public Rol createNewRol(String name) {
-        Rol newRol = new Rol();
-        newRol.setName(name);
-
-        if(getRolByName(name).isPresent())
-        {
-            throw new RolDuplicateException("El Rol "+ name + " ya existe", HttpStatus.INTERNAL_SERVER_ERROR);
+    public Person patchPerson(Long id, PersonRequest personDto) {
+       Person person = personRepository.findById(id)
+       .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario solicitado"));
+        
+        if(personDto.getName() != null) {
+            person.setName(personDto.getName());
         }
 
-        return roleRepository.save(newRol);
+        if(personDto.getSurname() != null) {
+            person.setLanguage(personDto.getSkill());
+        }
+
+        if (personDto.getSkill() != null) {
+            person.setLanguage(personDto.getSkill());
+        }
+
+        personRepository.save(person);
+        return person;
 
     }
 
-    private Optional<Rol> getRolByName(String rolName) {
-        return roleRepository.findByName(rolName);
-    }
+    
 }
