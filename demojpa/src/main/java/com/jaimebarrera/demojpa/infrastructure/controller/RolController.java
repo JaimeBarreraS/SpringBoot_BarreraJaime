@@ -10,20 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jaimebarrera.demojpa.application.service.PersonService;
-import com.jaimebarrera.demojpa.application.service.ProjectService;
 import com.jaimebarrera.demojpa.application.service.RolService;
-import com.jaimebarrera.demojpa.domain.Person;
-import com.jaimebarrera.demojpa.domain.Project;
 import com.jaimebarrera.demojpa.domain.Rol;
 import com.jaimebarrera.demojpa.domain.RoleRequest;
-import com.jaimebarrera.demojpa.domain.dto.PersonRequest;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,68 +26,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ApiController {
+public class RolController {
 
-
-    private final PersonService personService;
     private final RolService rolService;
-    private final ProjectService projectService;
-    
-    public ApiController(PersonService personService, RolService rolService, ProjectService projectService) {
-        this.personService = personService;
+
+    public RolController(RolService rolService) {
         this.rolService = rolService;
-        this.projectService = projectService;
     }
 
-    @GetMapping("/users")
-    public List<Person> findAllUser(
-        @RequestParam(name = "filter", defaultValue = "") String filter,
-        @RequestParam(name = "value", defaultValue = "") String value
-    ) {
-        
-        List<Person> results = personService.findAllUsersByFilter(filter, value);
-    
-        return results;
-    }
-
-    @PatchMapping()
-    public ResponseEntity<Person> parcialUpdatePerson(@PathVariable Long id, @RequestBody PersonRequest personDto) {
-        //return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok().body(personService.patchPerson(id, personDto));
-    }
-
+    //listar Roles
     @GetMapping("/roles")
     public List<Rol> findAllRoles(
         @RequestParam(name = "filter", defaultValue = "") String filter,
         @RequestParam(name = "value", defaultValue = "") String value
     ) {
-        
         List<Rol> results = rolService.findAllRolesByFilter(filter, value);
-    
         return results;
     }
 
+    //Crear Roles
     @PostMapping("/roles")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Rol newRole(@Valid @RequestBody RoleRequest rol) {
         return rolService.createNewRol(rol.getName());
     }
 
+    //Eliminar Roles
     @DeleteMapping("/roles/{id}")
     public ResponseEntity<Rol> removeRol(@PathVariable (name="id") Long id) {
         return ResponseEntity.ok().body(rolService.removeRol(id));
     }
-   
-
-    @GetMapping("/projects")
-    public List<Project> findAllProjects(
-        @RequestParam(name = "filter", defaultValue = "") String filter,
-        @RequestParam(name = "value", defaultValue = "") String value
-    ) {
-        
-        List<Project> results = projectService.findAllProjects();
-    
-        return results;
-    }
 }
+
+    
 

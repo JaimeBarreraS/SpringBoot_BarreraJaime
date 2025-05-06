@@ -1,14 +1,9 @@
-use jpademo;
-select * from roles;
-select * from personas;
-select * from passport;
-select * from project;
-
 insert into roles (name) values
 ('Developer'),
 ('Designer'),
 ('Manager'),
 ('Engineer');
+
 
 insert into personas (rol_id, full_name, last_name, programming_language) values
 (1, 'Lucia', 'Gonzales', 'Python'),
@@ -16,6 +11,7 @@ insert into personas (rol_id, full_name, last_name, programming_language) values
 (2, 'Jhonatan', 'Gonzales', 'Angular'),
 (3, 'Freiler', 'Gonzales', 'Java'),
 (4, 'Diego', 'Gonzales', 'SpringBoot');
+
 
 insert into passport (expiration, number, person_id) values
 ('2027-12-31', 'A1234567', 1),
