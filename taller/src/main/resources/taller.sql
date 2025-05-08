@@ -4,10 +4,10 @@ insert into role (name) values
 ('Manager'),
 ('Engineer');
 
-
-insert into user (role_id, name, password, username) values
-(1, 'Lucia', 'Gonzales', 'Python'),
-(1, 'Jaime', 'Gonzales', 'HTML & CSS'),
-(2, 'Jhonatan', 'Gonzales', 'Angular'),
-(3, 'Freiler', 'Gonzales', 'Java'),
-(4, 'Diego', 'Gonzales', 'SpringBoot');
+insert into user (role_id, name, password, username) 
+VALUES 
+(1, 'Lucia', 'password123', 'PythonDev'),
+(1, 'Jaime', 'password456', 'WebMaster'),
+(2, 'Jhonatan', 'password789', 'FullStack'),
+(3, 'Freiler', 'password321', 'JavaExpert'),
+(4, 'Diego', 'password654', 'SpringGuru');
